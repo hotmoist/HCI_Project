@@ -123,15 +123,29 @@
         </LinearLayout>
     </LinearLayout>
 
-
-    <TextView
-        android:padding="5dp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="   요일별 기상시간"
-        android:textSize="25dp"
-        />
+        >
+        <TextView
+            android:padding="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:text="   요일별 기상시간"
+            android:textSize="25dp"
+            />
+        <Button
+            android:id="@+id/alarmTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20sp"
+            android:layout_gravity="center"
+            android:backgroundTint= "#7E7E7E"
+            android:text="수면 알람 테스트"
+            />
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -165,20 +179,23 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <TextView
+                            <Spinner
                                 android:id="@+id/monday_AMPM"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center"
                                 android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="AM"
-                                android:textSize="20dp" />
+                                />
 
                             <EditText
                                 android:id="@+id/monday_hour"
+                                android:layout_width="20dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/editable_text_background"
+                                android:maxLength="2"
+                                android:textAlignment="center"
                                 android:layout_weight="1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -191,8 +208,12 @@
                             <EditText
                                 android:id="@+id/monday_min"
                                 android:layout_weight="1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_width="20dp"
+                                android:layout_height="30dp"
+                                android:textAlignment="center"
+                                android:maxLength="2"
+                                android:background="@drawable/editable_text_background"
+                                />
 
                             <TextView
                                 android:layout_weight="1"
@@ -204,7 +225,7 @@
 
                             <Button
                                 android:id="@+id/monday_save"
-                                android:layout_width="wrap_content"
+                                android:layout_width="75dp"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="#7E7E7E"
                                 android:text="저장"/>
@@ -235,20 +256,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <Spinner
                             android:id="@+id/tuesday_AMPM"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:layout_gravity="center"
                             android:text="AM"
                             android:textSize="20dp" />
 
                         <EditText
                             android:id="@+id/tuesday_hour"
                             android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:maxLength="2"
+                            android:background="@drawable/editable_text_background"
+                            />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -261,8 +286,12 @@
                         <EditText
                             android:id="@+id/tuesday_min"
                             android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:maxLength="2"
+                            android:background="@drawable/editable_text_background"
+                            />
 
                         <TextView
                             android:layout_weight="1"
@@ -274,7 +303,7 @@
 
                         <Button
                             android:id="@+id/tuesday_save"
-                            android:layout_width="wrap_content"
+                            android:layout_width="75dp"
                             android:layout_height="wrap_content"
                             android:backgroundTint="#7E7E7E"
                             android:text="저장"/>
@@ -305,20 +334,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <Spinner
                             android:id="@+id/wednesday_AMPM"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:layout_gravity="center"
                             android:text="AM"
                             android:textSize="20dp" />
 
                         <EditText
                             android:id="@+id/wednesday_hour"
                             android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:maxLength="2"
+                            android:background="@drawable/editable_text_background"
+                            />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -331,8 +364,12 @@
                         <EditText
                             android:id="@+id/wednesday_min"
                             android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:maxLength="2"
+                            android:background="@drawable/editable_text_background"
+                            />
 
                         <TextView
                             android:layout_weight="1"
@@ -344,7 +381,7 @@
 
                         <Button
                             android:id="@+id/wednesday_save"
-                            android:layout_width="wrap_content"
+                            android:layout_width="75dp"
                             android:layout_height="wrap_content"
                             android:backgroundTint="#7E7E7E"
                             android:text="저장"/>
@@ -375,20 +412,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <Spinner
                             android:id="@+id/thursday_AMPM"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="AM"
-                            android:textSize="20dp" />
+                            android:layout_gravity="center"
+                            />
 
                         <EditText
                             android:id="@+id/thursday_hour"
                             android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:maxLength="2"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:background="@drawable/editable_text_background"
+                            />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -401,8 +441,12 @@
                         <EditText
                             android:id="@+id/thursday_min"
                             android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:maxLength="2"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:background="@drawable/editable_text_background"
+                            />
 
                         <TextView
                             android:layout_weight="1"
@@ -414,7 +458,7 @@
 
                         <Button
                             android:id="@+id/thursday_save"
-                            android:layout_width="wrap_content"
+                            android:layout_width="75dp"
                             android:layout_height="wrap_content"
                             android:backgroundTint="#7E7E7E"
                             android:text="저장"/>
@@ -445,20 +489,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <Spinner
                             android:id="@+id/friday_AMPM"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="AM"
-                            android:textSize="20dp" />
+                            android:layout_gravity="center"
+                            />
 
                         <EditText
                             android:id="@+id/friday_hour"
                             android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:maxLength="2"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:background="@drawable/editable_text_background"
+                            />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -471,8 +518,12 @@
                         <EditText
                             android:id="@+id/friday_min"
                             android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:maxLength="2"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:background="@drawable/editable_text_background"
+                            />
 
                         <TextView
                             android:layout_weight="1"
@@ -484,7 +535,7 @@
 
                         <Button
                             android:id="@+id/friday_save"
-                            android:layout_width="wrap_content"
+                            android:layout_width="75dp"
                             android:layout_height="wrap_content"
                             android:backgroundTint="#7E7E7E"
                             android:text="저장"/>
@@ -515,20 +566,23 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <Spinner
                             android:id="@+id/saturday_AMPM"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="AM"
-                            android:textSize="20dp" />
+                            android:layout_gravity="center"
+                            />
 
                         <EditText
                             android:id="@+id/saturday_hour"
                             android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:maxLength="2"
+                            android:background="@drawable/editable_text_background"
+                            />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -541,8 +595,12 @@
                         <EditText
                             android:id="@+id/saturday_min"
                             android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:maxLength="2"
+                            android:background="@drawable/editable_text_background"
+                            />
 
                         <TextView
                             android:layout_weight="1"
@@ -554,7 +612,7 @@
 
                         <Button
                             android:id="@+id/saturday_save"
-                            android:layout_width="wrap_content"
+                            android:layout_width="75dp"
                             android:layout_height="wrap_content"
                             android:backgroundTint="#7E7E7E"
                             android:text="저장"/>
@@ -585,20 +643,22 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <TextView
+                        <Spinner
                             android:id="@+id/sunday_AMPM"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="AM"
-                            android:textSize="20dp" />
-
+                            android:layout_gravity="center"
+                            />
                         <EditText
                             android:id="@+id/sunday_hour"
                             android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:maxLength="2"
+                            android:background="@drawable/editable_text_background"
+                            />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -611,8 +671,12 @@
                         <EditText
                             android:id="@+id/sunday_min"
                             android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:textAlignment="center"
+                            android:maxLength="2"
+                            android:background="@drawable/editable_text_background"
+                            />
 
                         <TextView
                             android:layout_weight="1"
@@ -624,7 +688,7 @@
 
                         <Button
                             android:id="@+id/sunday_save"
-                            android:layout_width="wrap_content"
+                            android:layout_width="75dp"
                             android:layout_height="wrap_content"
                             android:backgroundTint="#7E7E7E"
                             android:text="저장"/>

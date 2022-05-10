@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
@@ -20,9 +21,11 @@ import android.widget.Toast;
 import com.example.hci_project.script.MessageScript;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    /** 컴포넌트 변수 */
+    /**
+     * 컴포넌트 변수
+     */
     private Button mondaySaveButton;
     private Button tuesdaySaveButton;
     private Button wednesdaySaveButton;
@@ -41,22 +44,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Spinner saturdayAMPMSpinner;
     private Spinner sundayAMPMSpinner;
 
-    private EditText mondayHourEditText;
-    private EditText tuesdayHourEditText;
-    private EditText wednesdayHourEditText;
-    private EditText thursdayHourEditText;
-    private EditText fridayHourEditText;
-    private EditText saturdayHourEditText;
-    private EditText sundayHourEditText;
+    private NumberPicker mondayHourNumberPicker;
+    private NumberPicker tuesdayHourNumberPicker;
+    private NumberPicker wednesdayHourNumberPicker;
+    private NumberPicker thursdayHourNumberPicker;
+    private NumberPicker fridayHourNumberPicker;
+    private NumberPicker saturdayHourNumberPicker;
+    private NumberPicker sundayHourNumberPicker;
 
-    private EditText mondayMinEditText;
-    private EditText tuesdayMinEditText;
-    private EditText wednesdayMinEditText;
-    private EditText thursdayMinEditText;
-    private EditText fridayMinEditText;
-    private EditText saturdayMinEditText;
-    private EditText sundayMinEditText;
+    private NumberPicker mondayMinNumberPicker;
+    private NumberPicker tuesdayMinNumberPicker;
+    private NumberPicker wednesdayMinNumberPicker;
+    private NumberPicker thursdayMinNumberPicker;
+    private NumberPicker fridayMinNumberPicker;
+    private NumberPicker saturdayMinNumberPicker;
+    private NumberPicker sundayMinNumberPicker;
+
     final static String[] AM_PM = {"AM", "PM"};
+    static String[] hours;
+    static String[] minute;
 
 
     @Override
@@ -65,23 +71,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
+        hours = new String[12];
+        minute = new String[60];
+
+        for (int i = 0; i < 12; i++) {
+            hours[i] = i+1 + "";
+        }
+
+        for (int i = 0; i < 60; i++) {
+            if (i < 10) {
+                minute[i] = "0" + i + "";
+            } else {
+                minute[i] = i + "";
+            }
+        }
+
         alarmTestButton = findViewById(R.id.alarmTest);
 
-        mondayHourEditText = findViewById(R.id.monday_hour);
-        tuesdayHourEditText = findViewById(R.id.tuesday_hour);
-        wednesdayHourEditText = findViewById(R.id.wednesday_hour);
-        thursdayHourEditText = findViewById(R.id.thursday_hour);
-        fridayHourEditText = findViewById(R.id.friday_hour);
-        saturdayHourEditText = findViewById(R.id.saturday_hour);
-        sundayHourEditText = findViewById(R.id.sunday_hour);
+        mondayHourNumberPicker = findViewById(R.id.monday_hour);
+        tuesdayHourNumberPicker = findViewById(R.id.tuesday_hour);
+        wednesdayHourNumberPicker = findViewById(R.id.wednesday_hour);
+        thursdayHourNumberPicker = findViewById(R.id.thursday_hour);
+        fridayHourNumberPicker = findViewById(R.id.friday_hour);
+        saturdayHourNumberPicker = findViewById(R.id.saturday_hour);
+        sundayHourNumberPicker = findViewById(R.id.sunday_hour);
 
-        mondayMinEditText = findViewById(R.id.monday_min);
-        tuesdayMinEditText = findViewById(R.id.tuesday_min);
-        wednesdayMinEditText = findViewById(R.id.wednesday_min);
-        thursdayMinEditText = findViewById(R.id.thursday_min);
-        fridayMinEditText = findViewById(R.id.friday_min);
-        saturdayMinEditText = findViewById(R.id.saturday_min);
-        sundayMinEditText = findViewById(R.id.sunday_min);
+
+        mondayMinNumberPicker = findViewById(R.id.monday_min);
+        tuesdayMinNumberPicker = findViewById(R.id.tuesday_min);
+        wednesdayMinNumberPicker = findViewById(R.id.wednesday_min);
+        thursdayMinNumberPicker = findViewById(R.id.thursday_min);
+        fridayMinNumberPicker = findViewById(R.id.friday_min);
+        saturdayMinNumberPicker = findViewById(R.id.saturday_min);
+        sundayMinNumberPicker = findViewById(R.id.sunday_min);
+
 
         mondaySaveButton = findViewById(R.id.monday_save);
         tuesdaySaveButton = findViewById(R.id.tuesday_save);
@@ -109,6 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         alarmTestButton.setOnClickListener(this);
 
+        // 잠시 없어져라 얍
+        alarmTestButton.setVisibility(View.GONE);
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, AM_PM);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -126,6 +152,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         saturdayAMPMSpinner.setOnItemSelectedListener(this);
         sundayAMPMSpinner.setAdapter(adapter);
         sundayAMPMSpinner.setOnItemSelectedListener(this);
+
+
+        setNumberPickerHour(mondayHourNumberPicker);
+        setNumberPickerHour(tuesdayHourNumberPicker);
+        setNumberPickerHour(wednesdayHourNumberPicker);
+        setNumberPickerHour(thursdayHourNumberPicker);
+        setNumberPickerHour(fridayHourNumberPicker);
+        setNumberPickerHour(saturdayHourNumberPicker);
+        setNumberPickerHour(sundayHourNumberPicker);
+
+        setNumberPickerMinute(mondayMinNumberPicker);
+        setNumberPickerMinute(tuesdayMinNumberPicker);
+        setNumberPickerMinute(wednesdayMinNumberPicker);
+        setNumberPickerMinute(thursdayMinNumberPicker);
+        setNumberPickerMinute(fridayMinNumberPicker);
+        setNumberPickerMinute(saturdayMinNumberPicker);
+        setNumberPickerMinute(sundayMinNumberPicker);
     }
 
 
@@ -144,9 +187,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
     }
 
+    public boolean setNumberPickerHour(NumberPicker np){
+        if(np == null){
+            return false;
+        }
+
+        np.setMinValue(0);
+        np.setMaxValue(hours.length-1);
+        np.setDisplayedValues(hours);
+        np.setWrapSelectorWheel(true);
+
+        return true;
+    }
+
+    public boolean setNumberPickerMinute(NumberPicker np){
+        if(np == null){
+            return false;
+        }
+
+        np.setMinValue(0);
+        np.setMaxValue(minute.length-1);
+        np.setDisplayedValues(minute);
+        np.setWrapSelectorWheel(true);
+
+        return true;
+    }
+
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.alarmTest:
                 int alarmType = (int) (Math.random() * 9); // 0 ~ 8
                 int alarmScript = (int) (Math.random() * 10); // 0 ~ 9
@@ -154,31 +223,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.monday_save:
                 Toast.makeText(getApplicationContext(), String.format("월요일 %s %s시 %s분 알람 저장 완료! ",
-                        mondayAMPMSpinner.getSelectedItem().toString(), mondayHourEditText.getText(), mondayMinEditText.getText()),Toast.LENGTH_LONG).show();
+                        mondayAMPMSpinner.getSelectedItem().toString(), hours[mondayHourNumberPicker.getValue()], minute[mondayMinNumberPicker.getValue()]), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tuesday_save:
                 Toast.makeText(getApplicationContext(), String.format("화요일 %s %s시 %s분 알람 저장 완료! ",
-                        tuesdayAMPMSpinner.getSelectedItem().toString(), tuesdayHourEditText.getText(), tuesdayMinEditText.getText()), Toast.LENGTH_LONG).show();
+                        tuesdayAMPMSpinner.getSelectedItem().toString(), hours[tuesdayHourNumberPicker.getValue()], minute[tuesdayMinNumberPicker.getValue()]), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.wednesday_save:
                 Toast.makeText(getApplicationContext(), String.format("수요일 %s %s시 %s분 알람 저장 완료! ",
-                        wednesdayAMPMSpinner.getSelectedItem().toString(), wednesdayHourEditText.getText(), wednesdayMinEditText.getText()), Toast.LENGTH_LONG).show();
+                        wednesdayAMPMSpinner.getSelectedItem().toString(), hours[wednesdayHourNumberPicker.getValue()], minute[wednesdayMinNumberPicker.getValue()]), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.thursday_save:
                 Toast.makeText(getApplicationContext(), String.format("목요일 %s %s시 %s분 알람 저장 완료! ",
-                        thursdayAMPMSpinner.getSelectedItem().toString(), thursdayHourEditText.getText(), thursdayMinEditText.getText()), Toast.LENGTH_LONG).show();
+                        thursdayAMPMSpinner.getSelectedItem().toString(), hours[thursdayHourNumberPicker.getValue()], minute[thursdayMinNumberPicker.getValue()]), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.friday_save:
                 Toast.makeText(getApplicationContext(), String.format("금요일 %s %s시 %s분 알람 저장 완료! ",
-                        fridayAMPMSpinner.getSelectedItem().toString(), fridayHourEditText.getText(), fridayMinEditText.getText()), Toast.LENGTH_LONG).show();
+                        fridayAMPMSpinner.getSelectedItem().toString(), hours[fridayHourNumberPicker.getValue()], minute[fridayMinNumberPicker.getValue()]), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.saturday_save:
                 Toast.makeText(getApplicationContext(), String.format("토요일 %s %s시 %s분 알람 저장 완료! ",
-                        saturdayAMPMSpinner.getSelectedItem().toString(), saturdayHourEditText.getText(), saturdayMinEditText.getText()), Toast.LENGTH_LONG).show();
+                        saturdayAMPMSpinner.getSelectedItem().toString(), hours[saturdayHourNumberPicker.getValue()], minute[saturdayMinNumberPicker.getValue()]), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.sunday_save:
                 Toast.makeText(getApplicationContext(), String.format("일요일 %s %s시 %s분 알람 저장 완료! ",
-                        sundayAMPMSpinner.getSelectedItem().toString(), sundayHourEditText.getText(), sundayMinEditText.getText()), Toast.LENGTH_LONG).show();
+                        sundayAMPMSpinner.getSelectedItem().toString(), hours[sundayHourNumberPicker.getValue()], minute[sundayMinNumberPicker.getValue()]), Toast.LENGTH_SHORT).show();
                 break;
             default:
         }
@@ -193,16 +262,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
-    public void getAlarm(int type, int messageIndex){
-        if(type < 10){
+    public void getAlarm(int type, int messageIndex) {
+        if (type < 10) {
             showToastAlarm(type, messageIndex);
         }
     }
 
-    public void showToastAlarm(int type, int messageIndex){
+    public void showToastAlarm(int type, int messageIndex) {
         String message = getMessageScript(messageIndex);
-        switch (type){
-            case 1 :
+        switch (type) {
+            case 1:
                 FancyToast.makeText(this, message, FancyToast.LENGTH_LONG, FancyToast.DEFAULT, true).show();
                 break;
             case 2:
@@ -225,11 +294,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public String getMessageScript(int index){
+    public String getMessageScript(int index) {
         return MessageScript.getMessage(index);
     }
 
-    public void alarmTimer(){
+    public void alarmTimer() {
         // 알람을 작동하기 위한 타이머 구현
     }
 }

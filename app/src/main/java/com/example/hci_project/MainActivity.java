@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         weekMinutes = new String[7];
 
 
-        alarmTestButton = findViewById(R.id.alarmTest);
 
         mondayHourNumberPicker = findViewById(R.id.monday_hour);
         tuesdayHourNumberPicker = findViewById(R.id.tuesday_hour);
@@ -188,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         loadTime();
-    }
 
 
     @Override
@@ -261,7 +259,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         np.setMinValue(0);
-        np.setMaxValue(hours.length - 1);
         np.setDisplayedValues(hours);
         np.setWrapSelectorWheel(true);
 
@@ -275,11 +272,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         np.setMinValue(0);
         np.setMaxValue(minute.length - 1);
+      
         np.setDisplayedValues(minute);
         np.setWrapSelectorWheel(true);
 
         return true;
     }
+
 
     public boolean saveHourMin(String day, Spinner sp, NumberPicker hnp, NumberPicker mnp){
         if(sp == null || hnp == null || mnp == null){
@@ -340,6 +339,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
+
         switch (view.getId()) {
             case R.id.alarmTest:
                 int alarmType = (int) (Math.random() * 9); // 0 ~ 8
@@ -347,6 +347,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getAlarm(alarmType, alarmScript);
                 break;
             case R.id.monday_save:
+
                 saveHourMin("월요일", mondayAMPMSpinner, mondayHourNumberPicker, mondayMinNumberPicker);
                 break;
             case R.id.tuesday_save:
@@ -366,6 +367,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.sunday_save:
                 saveHourMin("일요일", sundayAMPMSpinner, sundayHourNumberPicker, sundayMinNumberPicker);
+
                 break;
             default:
         }

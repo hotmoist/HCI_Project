@@ -102,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         weekMinutes = new String[7];
 
 
-
         mondayHourNumberPicker = findViewById(R.id.monday_hour);
         tuesdayHourNumberPicker = findViewById(R.id.tuesday_hour);
         wednesdayHourNumberPicker = findViewById(R.id.wednesday_hour);
@@ -187,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         loadTime();
-
+    }
 
     @Override
     protected void onStart() {

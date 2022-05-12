@@ -34,41 +34,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button alarmTestButton;
 
 
-    // TODO : 1. Spinner --> NumberPicker 형태로 변경 필요
-    //      : 2. 모두 배열로 구현하기 (Refactoring)
-
-    private Spinner mondayAMPMSpinner;
-    private Spinner tuesdayAMPMSpinner;
-    private Spinner wednesdayAMPMSpinner;
-    private Spinner thursdayAMPMSpinner;
-    private Spinner fridayAMPMSpinner;
-    private Spinner saturdayAMPMSpinner;
-    private Spinner sundayAMPMSpinner;
-
-    private NumberPicker mondayHourNumberPicker;
-    private NumberPicker tuesdayHourNumberPicker;
-    private NumberPicker wednesdayHourNumberPicker;
-    private NumberPicker thursdayHourNumberPicker;
-    private NumberPicker fridayHourNumberPicker;
-    private NumberPicker saturdayHourNumberPicker;
-    private NumberPicker sundayHourNumberPicker;
-
-    private NumberPicker mondayMinNumberPicker;
-    private NumberPicker tuesdayMinNumberPicker;
-    private NumberPicker wednesdayMinNumberPicker;
-    private NumberPicker thursdayMinNumberPicker;
-    private NumberPicker fridayMinNumberPicker;
-    private NumberPicker saturdayMinNumberPicker;
-    private NumberPicker sundayMinNumberPicker;
 
     final static String[] AM_PM = {"AM", "PM"};
+    final static int WEEK = 7;
+
     static String[] hours;
     static String[] minute;
 
     private SharedPreferences timeData;
-    // 월 - 일 의 시간과 분을 저장하기 위한 배열
+    // 월 - 일 의 AM/PM | 시간 | 분 을 저장하기 위한 배열
+    private int[] weekAMPM; // 0 : AM, 1 : PM
     private String[] weekHours;
     private String[] weekMinutes;
+
+    // 월 - 일 의 AM/PM | 시간 | 분 의 NumberPicker 정의
+    private NumberPicker[] weekAMPMNumberPicker;
+    private NumberPicker[] weekHourNumberPicker;
+    private NumberPicker[] weekMinNumberPicker;
 
 
     @Override
@@ -98,27 +80,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         // 월 - 일 시간, 분 저장 공간 설정
-        weekHours = new String[7];
-        weekMinutes = new String[7];
+        weekAMPM = new int[WEEK];
+        weekHours = new String[WEEK];
+        weekMinutes = new String[WEEK];
+
+        // 월 - 일 AM/PM | 시간 | 분 NumberPicker 설정
+        weekAMPMNumberPicker = new NumberPicker[WEEK];
+        weekHourNumberPicker = new NumberPicker[WEEK];
+        weekMinNumberPicker = new NumberPicker[WEEK];
 
 
-        mondayHourNumberPicker = findViewById(R.id.monday_hour);
-        tuesdayHourNumberPicker = findViewById(R.id.tuesday_hour);
-        wednesdayHourNumberPicker = findViewById(R.id.wednesday_hour);
-        thursdayHourNumberPicker = findViewById(R.id.thursday_hour);
-        fridayHourNumberPicker = findViewById(R.id.friday_hour);
-        saturdayHourNumberPicker = findViewById(R.id.saturday_hour);
-        sundayHourNumberPicker = findViewById(R.id.sunday_hour);
+        weekHourNumberPicker[0] = findViewById(R.id.monday_hour);
+        weekHourNumberPicker[1] = findViewById(R.id.tuesday_hour);
+        weekHourNumberPicker[2] = findViewById(R.id.wednesday_hour);
+        weekHourNumberPicker[3] = findViewById(R.id.thursday_hour);
+        weekHourNumberPicker[4] = findViewById(R.id.friday_hour);
+        weekHourNumberPicker[5] = findViewById(R.id.saturday_hour);
+        weekHourNumberPicker[6] = findViewById(R.id.sunday_hour);
 
+        weekMinNumberPicker[0] = findViewById(R.id.monday_min);
+        weekMinNumberPicker[1] = findViewById(R.id.tuesday_min);
+        weekMinNumberPicker[2] = findViewById(R.id.wednesday_min);
+        weekMinNumberPicker[3] = findViewById(R.id.thursday_min);
+        weekMinNumberPicker[4] = findViewById(R.id.friday_min);
+        weekMinNumberPicker[5] = findViewById(R.id.saturday_min);
+        weekMinNumberPicker[6] = findViewById(R.id.sunday_min);
 
-        mondayMinNumberPicker = findViewById(R.id.monday_min);
-        tuesdayMinNumberPicker = findViewById(R.id.tuesday_min);
-        wednesdayMinNumberPicker = findViewById(R.id.wednesday_min);
-        thursdayMinNumberPicker = findViewById(R.id.thursday_min);
-        fridayMinNumberPicker = findViewById(R.id.friday_min);
-        saturdayMinNumberPicker = findViewById(R.id.saturday_min);
-        sundayMinNumberPicker = findViewById(R.id.sunday_min);
+        weekAMPMNumberPicker[0] = findViewById(R.id.monday_AMPM);
+        weekAMPMNumberPicker[1] = findViewById(R.id.tuesday_AMPM);
+        weekAMPMNumberPicker[2] = findViewById(R.id.wednesday_AMPM);
+        weekAMPMNumberPicker[3] = findViewById(R.id.thursday_AMPM);
+        weekAMPMNumberPicker[4] = findViewById(R.id.friday_AMPM);
+        weekAMPMNumberPicker[5] = findViewById(R.id.saturday_AMPM);
+        weekAMPMNumberPicker[6] = findViewById(R.id.sunday_AMPM);
 
+        alarmTestButton = findViewById(R.id.alarmTest);
 
         mondaySaveButton = findViewById(R.id.monday_save);
         tuesdaySaveButton = findViewById(R.id.tuesday_save);
@@ -127,14 +123,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fridaySaveButton = findViewById(R.id.friday_save);
         saturdaySaveButton = findViewById(R.id.saturday_save);
         sundaySaveButton = findViewById(R.id.sunday_save);
-
-        mondayAMPMSpinner = findViewById(R.id.monday_AMPM);
-        tuesdayAMPMSpinner = findViewById(R.id.tuesday_AMPM);
-        wednesdayAMPMSpinner = findViewById(R.id.wednesday_AMPM);
-        thursdayAMPMSpinner = findViewById(R.id.thursday_AMPM);
-        fridayAMPMSpinner = findViewById(R.id.friday_AMPM);
-        saturdayAMPMSpinner = findViewById(R.id.saturday_AMPM);
-        sundayAMPMSpinner = findViewById(R.id.sunday_AMPM);
 
         mondaySaveButton.setOnClickListener(this);
         tuesdaySaveButton.setOnClickListener(this);
@@ -149,41 +137,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 잠시 없어져라 얍
         alarmTestButton.setVisibility(View.GONE);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, AM_PM);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        mondayAMPMSpinner.setAdapter(adapter);
-        mondayAMPMSpinner.setOnItemSelectedListener(this);
-        tuesdayAMPMSpinner.setAdapter(adapter);
-        tuesdayAMPMSpinner.setOnItemSelectedListener(this);
-        wednesdayAMPMSpinner.setAdapter(adapter);
-        wednesdayAMPMSpinner.setOnItemSelectedListener(this);
-        thursdayAMPMSpinner.setAdapter(adapter);
-        thursdayAMPMSpinner.setOnItemSelectedListener(this);
-        fridayAMPMSpinner.setAdapter(adapter);
-        fridayAMPMSpinner.setOnItemSelectedListener(this);
-        saturdayAMPMSpinner.setAdapter(adapter);
-        saturdayAMPMSpinner.setOnItemSelectedListener(this);
-        sundayAMPMSpinner.setAdapter(adapter);
-        sundayAMPMSpinner.setOnItemSelectedListener(this);
-
-
-        setNumberPickerHour(mondayHourNumberPicker);
-        setNumberPickerHour(tuesdayHourNumberPicker);
-        setNumberPickerHour(wednesdayHourNumberPicker);
-        setNumberPickerHour(thursdayHourNumberPicker);
-        setNumberPickerHour(fridayHourNumberPicker);
-        setNumberPickerHour(saturdayHourNumberPicker);
-        setNumberPickerHour(sundayHourNumberPicker);
-
-        setNumberPickerMinute(mondayMinNumberPicker);
-        setNumberPickerMinute(tuesdayMinNumberPicker);
-        setNumberPickerMinute(wednesdayMinNumberPicker);
-        setNumberPickerMinute(thursdayMinNumberPicker);
-        setNumberPickerMinute(fridayMinNumberPicker);
-        setNumberPickerMinute(saturdayMinNumberPicker);
-        setNumberPickerMinute(sundayMinNumberPicker);
-
+        for(int i = 0; i < WEEK; i++){
+            setNumberPickerHour(weekHourNumberPicker[i]);
+            setNumberPickerMinute(weekMinNumberPicker[i]);
+            setNumberPickerAMPM(weekAMPMNumberPicker[i]);
+        }
 
         loadTime();
     }
@@ -212,10 +170,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences.Editor editor = timeData.edit();
 
         if(-1 < day && day < weekHours.length ){
-            // TODO : AM PM 에 대해 구현 필요
 
             editor.putString(String.format("%s Hour", day), weekHours[day]);
             editor.putString(String.format("%s Min", day), weekMinutes[day]);
+            // "0" : AM , "1" : PM
+            editor.putString(String.format("%s_AMPM", day), weekAMPM[day] + "");
 
             editor.apply();
             return true;
@@ -225,29 +184,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private boolean loadTime(){
 
-        for(int i = 0; i < weekHours.length; i++){
+        for(int i = 0; i < WEEK; i++){
             weekHours[i] = timeData.getString(String.format("%s Hour", i), "1");
             weekMinutes[i] = timeData.getString(String.format("%s Min", i), "0");
+            weekAMPM[i] = Integer.parseInt(timeData.getString(String.format("%s_AMPM", i), "0"));
         }
 
-        mondayHourNumberPicker.setValue(Integer.parseInt(weekHours[0])-1);
-        tuesdayHourNumberPicker.setValue(Integer.parseInt(weekHours[1])-1);
-        wednesdayHourNumberPicker.setValue(Integer.parseInt(weekHours[2])-1);
-        thursdayHourNumberPicker.setValue(Integer.parseInt(weekHours[3])-1);
-        fridayHourNumberPicker.setValue(Integer.parseInt(weekHours[4])-1);
-        saturdayHourNumberPicker.setValue(Integer.parseInt(weekHours[5])-1);
-        sundayHourNumberPicker.setValue(Integer.parseInt(weekHours[6])-1);
-
-        mondayMinNumberPicker.setValue(Integer.parseInt(weekMinutes[0]));
-        tuesdayMinNumberPicker.setValue(Integer.parseInt(weekMinutes[1]));
-        wednesdayMinNumberPicker.setValue(Integer.parseInt(weekMinutes[2]));
-        thursdayMinNumberPicker.setValue(Integer.parseInt(weekMinutes[3]));
-        fridayMinNumberPicker.setValue(Integer.parseInt(weekMinutes[4]));
-        saturdayMinNumberPicker.setValue(Integer.parseInt(weekMinutes[5]));
-        sundayMinNumberPicker.setValue(Integer.parseInt(weekMinutes[6]));
-
-
+        for(int i = 0 ; i <WEEK; i++) {
+            weekAMPMNumberPicker[i].setValue(weekAMPM[i]);
+            weekHourNumberPicker[i].setValue(Integer.parseInt(weekHours[i]) - 1);
+            weekMinNumberPicker[i].setValue(Integer.parseInt(weekMinutes[i]));
+        }
         // TODO : AM PM에 대해 구현 필요
+
+        return true;
+    }
+
+    public boolean setNumberPickerAMPM(NumberPicker np){
+        if (np == null){
+            return false;
+        }
+
+        np.setMinValue(0);
+        np.setMaxValue(1);
+        np.setDisplayedValues(AM_PM);
+        np.setWrapSelectorWheel(true);
 
         return true;
     }
@@ -258,6 +219,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         np.setMinValue(0);
+        np.setMaxValue(hours.length -1);
+
         np.setDisplayedValues(hours);
         np.setWrapSelectorWheel(true);
 
@@ -279,11 +242,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public boolean saveHourMin(String day, Spinner sp, NumberPicker hnp, NumberPicker mnp){
-        if(sp == null || hnp == null || mnp == null){
+    public boolean saveHourMin(String day, NumberPicker AMPMnp, NumberPicker hnp, NumberPicker mnp){
+        if(AMPMnp == null || hnp == null || mnp == null){
             return false;
         }
 
+        String tAMPM = AM_PM[AMPMnp.getValue()];
+        int iAMPM = 0;
+
+        if(tAMPM.equals("PM")){
+            iAMPM = 1;
+        }
         String tHour = hours[hnp.getValue()];
         String tMin = minute[mnp.getValue()];
 
@@ -291,36 +260,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case "월요일":
                 weekHours[0] = tHour;
                 weekMinutes[0] = tMin;
+                weekAMPM[0] = iAMPM;
                 saveTime(0);
                 break;
             case "화요일":
                 weekHours[1] = tHour;
                 weekMinutes[1] = tMin;
+                weekAMPM[1] = iAMPM;
                 saveTime(1);
                 break;
             case "수요일":
                 weekHours[2] = tHour;
                 weekMinutes[2] = tMin;
+                weekAMPM[2] = iAMPM;
                 saveTime(2);
                 break;
             case "목요일":
                 weekHours[3] = tHour;
                 weekMinutes[3] = tMin;
+                weekAMPM[3] = iAMPM;
                 saveTime(3);
                 break;
             case "금요일":
                 weekHours[4] = tHour;
                 weekMinutes[4] = tMin;
+                weekAMPM[4] = iAMPM;
                 saveTime(4);
                 break;
             case "툐요일":
                 weekHours[5] = tHour;
                 weekMinutes[5] = tMin;
+                weekAMPM[5] = iAMPM;
                 saveTime(5);
                 break;
             case "일요일":
                 weekHours[6] = tHour;
                 weekMinutes[6] = tMin;
+                weekAMPM[6] = iAMPM;
                 saveTime(6);
                 break;
             default:
@@ -328,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         Toast.makeText(getApplicationContext(), String.format("%s %s %s시 %s분 알람 저장 완료!",
-                day, sp.getSelectedItem().toString(), tHour, tMin), Toast.LENGTH_SHORT).show();
+                day, tAMPM, tHour, tMin), Toast.LENGTH_SHORT).show();
 
         return true;
     }
@@ -347,25 +323,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.monday_save:
 
-                saveHourMin("월요일", mondayAMPMSpinner, mondayHourNumberPicker, mondayMinNumberPicker);
+                saveHourMin("월요일", weekAMPMNumberPicker[0], weekHourNumberPicker[0], weekMinNumberPicker[0]);
                 break;
             case R.id.tuesday_save:
-                saveHourMin("화요일", tuesdayAMPMSpinner, tuesdayHourNumberPicker, tuesdayMinNumberPicker);
+                saveHourMin("화요일", weekAMPMNumberPicker[1], weekHourNumberPicker[1], weekMinNumberPicker[1]);
                 break;
             case R.id.wednesday_save:
-                saveHourMin("수요일", wednesdayAMPMSpinner, wednesdayHourNumberPicker, wednesdayMinNumberPicker);
+                saveHourMin("수요일", weekAMPMNumberPicker[2], weekHourNumberPicker[2], weekMinNumberPicker[2]);
                 break;
             case R.id.thursday_save:
-                saveHourMin("목요일", thursdayAMPMSpinner, thursdayHourNumberPicker, thursdayMinNumberPicker);
+                saveHourMin("목요일", weekAMPMNumberPicker[3], weekHourNumberPicker[3], weekMinNumberPicker[3]);
                 break;
             case R.id.friday_save:
-                saveHourMin("금요일", fridayAMPMSpinner, fridayHourNumberPicker, fridayMinNumberPicker);
+                saveHourMin("금요일", weekAMPMNumberPicker[4], weekHourNumberPicker[4], weekMinNumberPicker[4]);
                 break;
             case R.id.saturday_save:
-                saveHourMin("토요일", saturdayAMPMSpinner, saturdayHourNumberPicker, saturdayMinNumberPicker);
+                saveHourMin("토요일", weekAMPMNumberPicker[5], weekHourNumberPicker[5], weekMinNumberPicker[5]);
                 break;
             case R.id.sunday_save:
-                saveHourMin("일요일", sundayAMPMSpinner, sundayHourNumberPicker, sundayMinNumberPicker);
+                saveHourMin("일요일", weekAMPMNumberPicker[6], weekHourNumberPicker[6], weekMinNumberPicker[6]);
 
                 break;
             default:

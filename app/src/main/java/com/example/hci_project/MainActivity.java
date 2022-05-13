@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 weekAMPM[4] = iAMPM;
                 saveTime(4);
                 break;
-            case "툐요일":
+            case "토요일":
                 weekHours[5] = tHour;
                 weekMinutes[5] = tMin;
                 weekAMPM[5] = iAMPM;

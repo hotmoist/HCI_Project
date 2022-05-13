@@ -2,9 +2,22 @@ package com.example.hci_project;
 
 import static android.widget.Toast.makeText;
 
-import androidx.appcompat.app.AppCompatActivity;
+import static androidx.core.app.NotificationCompat.DEFAULT_SOUND;
+import static androidx.core.app.NotificationCompat.DEFAULT_VIBRATE;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button alarmTestButton;
 
 
-
     final static String[] AM_PM = {"AM", "PM"};
     final static int WEEK = 7;
 
@@ -51,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NumberPicker[] weekAMPMNumberPicker;
     private NumberPicker[] weekHourNumberPicker;
     private NumberPicker[] weekMinNumberPicker;
+
+    private static final String CHANNEL_ID = "10000";
 
 
     @Override
@@ -135,9 +149,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alarmTestButton.setOnClickListener(this);
 
         // 잠시 없어져라 얍
-        alarmTestButton.setVisibility(View.GONE);
+//        alarmTestButton.setVisibility(View.GONE);
 
-        for(int i = 0; i < WEEK; i++){
+        for (int i = 0; i < WEEK; i++) {
             setNumberPickerHour(weekHourNumberPicker[i]);
             setNumberPickerMinute(weekMinNumberPicker[i]);
             setNumberPickerAMPM(weekAMPMNumberPicker[i]);
@@ -163,13 +177,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * [저장] 버튼이 눌러질 때, 시간 저장
+     *
      * @param day : 월=0, 화 =1, 수=2, 목=3, 금=4, 토=5, 일=6
      * @return 저장 여부
      */
     private boolean saveTime(int day) {
         SharedPreferences.Editor editor = timeData.edit();
 
-        if(-1 < day && day < weekHours.length ){
+        if (-1 < day && day < weekHours.length) {
 
             editor.putString(String.format("%s Hour", day), weekHours[day]);
             editor.putString(String.format("%s Min", day), weekMinutes[day]);
@@ -182,15 +197,50 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
-    private boolean loadTime(){
+    /**
+     * 상단바 Notification 및 head-up 알림
+     *
+     * @param channelId : 알람 체널 id
+     * @param id        : 알람 id (int)
+     * @param title     : 알람 타이틀
+     * @param text      : 알람 메세지 내용
+     * @return          : 알람 성공 시 true 반환
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private boolean createNotification(String channelId, int id, String title, String text) {
 
-        for(int i = 0; i < WEEK; i++){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId, "sleep notify", NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("this is sleep notification");
+            channel.setShowBadge(true);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+
+            NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(channel);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
+                    .setContentTitle(title)
+                    .setContentText(text);
+
+            notificationManager.notify(id, builder.build());
+
+            return true;
+        }
+        return false;
+    }
+
+    private boolean loadTime() {
+
+        for (int i = 0; i < WEEK; i++) {
             weekHours[i] = timeData.getString(String.format("%s Hour", i), "1");
             weekMinutes[i] = timeData.getString(String.format("%s Min", i), "0");
             weekAMPM[i] = Integer.parseInt(timeData.getString(String.format("%s_AMPM", i), "0"));
         }
 
-        for(int i = 0 ; i <WEEK; i++) {
+        for (int i = 0; i < WEEK; i++) {
             weekAMPMNumberPicker[i].setValue(weekAMPM[i]);
             weekHourNumberPicker[i].setValue(Integer.parseInt(weekHours[i]) - 1);
             weekMinNumberPicker[i].setValue(Integer.parseInt(weekMinutes[i]));
@@ -200,8 +250,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    public boolean setNumberPickerAMPM(NumberPicker np){
-        if (np == null){
+    public boolean setNumberPickerAMPM(NumberPicker np) {
+        if (np == null) {
             return false;
         }
 
@@ -219,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         np.setMinValue(0);
-        np.setMaxValue(hours.length -1);
+        np.setMaxValue(hours.length - 1);
 
         np.setDisplayedValues(hours);
         np.setWrapSelectorWheel(true);
@@ -234,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         np.setMinValue(0);
         np.setMaxValue(minute.length - 1);
-      
+
         np.setDisplayedValues(minute);
         np.setWrapSelectorWheel(true);
 
@@ -242,21 +292,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    public boolean saveHourMin(String day, NumberPicker AMPMnp, NumberPicker hnp, NumberPicker mnp){
-        if(AMPMnp == null || hnp == null || mnp == null){
+    public boolean saveHourMin(String day, NumberPicker AMPMnp, NumberPicker hnp, NumberPicker mnp) {
+        if (AMPMnp == null || hnp == null || mnp == null) {
             return false;
         }
 
         String tAMPM = AM_PM[AMPMnp.getValue()];
         int iAMPM = 0;
 
-        if(tAMPM.equals("PM")){
+        if (tAMPM.equals("PM")) {
             iAMPM = 1;
         }
         String tHour = hours[hnp.getValue()];
         String tMin = minute[mnp.getValue()];
 
-        switch (day){
+        switch (day) {
             case "월요일":
                 weekHours[0] = tHour;
                 weekMinutes[0] = tMin;
@@ -287,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 weekAMPM[4] = iAMPM;
                 saveTime(4);
                 break;
-            case "툐요일":
+            case "토요일":
                 weekHours[5] = tHour;
                 weekMinutes[5] = tMin;
                 weekAMPM[5] = iAMPM;
@@ -310,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View view) {
 
@@ -320,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int alarmType = (int) (Math.random() * 9); // 0 ~ 8
                 int alarmScript = (int) (Math.random() * 10); // 0 ~ 9
                 getAlarm(alarmType, alarmScript);
+                createNotification(CHANNEL_ID, 1, "test", "test");
                 break;
             case R.id.monday_save:
 

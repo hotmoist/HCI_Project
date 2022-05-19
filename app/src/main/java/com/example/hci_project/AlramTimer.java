@@ -33,11 +33,20 @@ public class AlramTimer extends AppCompatActivity  {
         alarmIntent = new Intent(this, AlramReceiver.class);
 //
         pendingIntent = PendingIntent.getBroadcast(this,1111,alarmIntent, PendingIntent.FLAG_MUTABLE);
-        setAlarm(23,5);
+        setAlarm(23,5,6000);
     }
 
+    /**
+     *
+     * 매개변수에 값을 넣으면 그 시간에 해당하는 시간에 알람이 간다.
+     * 처음에는 안오고 interval만큼 반복적으로 실행한다.
+     *
+     * @param hour          --> 알람을 울리고 싶은 시간대
+     * @param minute        --> 알람을 울리고 싶은 시간의 분
+     *
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public void setAlarm(int hour, int minute){
+    public void setAlarm(int hour, int minute, int inverval){
 
         final Calendar calendar = Calendar.getInstance();
 
@@ -47,7 +56,7 @@ public class AlramTimer extends AppCompatActivity  {
         calendar.set(Calendar.SECOND, 0);
 
         alarm_manager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,  calendar.getTimeInMillis(), pendingIntent);
-        alarm_manager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 6000, pendingIntent);
+        alarm_manager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), inverval, pendingIntent);
     }
 
     public void cancelAlram(){

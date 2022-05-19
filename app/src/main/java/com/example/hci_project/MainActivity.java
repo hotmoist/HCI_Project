@@ -31,7 +31,7 @@ import android.widget.Toast;
 import com.example.hci_project.script.MessageScript;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class MainActivity extends LightSensor implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     /**
      * 컴포넌트 변수
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
@@ -355,7 +355,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Toast.makeText(getApplicationContext(), String.format("%s %s %s시 %s분 알람 저장 완료!",
                 day, tAMPM, tHour, tMin), Toast.LENGTH_SHORT).show();
-
         return true;
     }
 

@@ -27,7 +27,6 @@ public class AlramTimer extends AppCompatActivity  {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        Toast.makeText(this,""+calendar.getTimeInMillis(),Toast.LENGTH_SHORT).show();
-
         alarm_manager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
 //
         alarmIntent = new Intent(this, AlramReceiver.class);

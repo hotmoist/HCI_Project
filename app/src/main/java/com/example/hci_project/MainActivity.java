@@ -47,8 +47,11 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
     private Button alarmTestButton;
 
 
+    private int count = 1;
+
     final static String[] AM_PM = {"AM", "PM"};
     final static int WEEK = 7;
+
 
     static String[] hours;
     static String[] minute;
@@ -220,17 +223,51 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
-                    .setSmallIcon(R.drawable.ic_launcher_foreground)
+                    .setSmallIcon(getNotification(count))
                     .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
                     .setContentTitle(title)
-                    .setContentText(text);
-
+                    .setContentText(text)
+                    .setOngoing(true);
             notificationManager.notify(id, builder.build());
 
             return true;
         }
         return false;
     }
+    private int getNotification(int noti){
+        int notiImage = 0;
+        switch(noti){
+            case 1 :
+                notiImage = R.drawable.battery1;
+                break;
+            case 2 :
+                notiImage = R.drawable.battery2;
+                break;
+            case 3 :
+                notiImage = R.drawable.battery3;
+                break;
+            case 4 :
+                notiImage = R.drawable.battery4;
+                break;
+            case 5 :
+                notiImage = R.drawable.battery5;
+                break;
+            case 6 :
+                notiImage = R.drawable.battery6;
+                break;
+            case 7 :
+                notiImage = R.drawable.battery7;
+                break;
+            case 8 :
+                notiImage = R.drawable.battery8;
+                break;
+            default :
+                notiImage = R.drawable.battery9;
+                break;
+        }
+        return notiImage;
+    }
+
 
     private boolean loadTime() {
 
@@ -368,8 +405,10 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
             case R.id.alarmTest:
                 int alarmType = (int) (Math.random() * 9); // 0 ~ 8
                 int alarmScript = (int) (Math.random() * 10); // 0 ~ 9
+
                 getAlarm(alarmType, alarmScript);
                 createNotification(CHANNEL_ID, 1, "test", "test");
+                count++;
                 break;
             case R.id.monday_save:
 

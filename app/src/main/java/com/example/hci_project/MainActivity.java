@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.NumberPicker;
+import android.widget.RemoteViews;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -221,9 +222,16 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
             NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.createNotificationChannel(channel);
 
+            RemoteViews notificationLayout = new RemoteViews(getPackageName(), R.layout.custom_notification);
+            notificationLayout.setImageViewResource(R.id.img, R.mipmap.ic_launcher);
+            notificationLayout.setTextViewText(R.id.title, "수면 배터리");
+            notificationLayout.setTextViewText(R.id.message, "문구를 넣어주세요");
+
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
                     .setSmallIcon(getNotification(count))
+                    .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                    .setCustomContentView(notificationLayout)
                     .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
                     .setContentTitle(title)
                     .setContentText(text)

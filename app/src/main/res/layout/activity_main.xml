@@ -62,6 +62,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/tomorrow_AMPM"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -69,6 +70,7 @@
                     android:textSize="20dp"/>
 
                 <TextView
+                    android:id="@+id/tomorrow_hour"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -86,6 +88,7 @@
 
 
                 <TextView
+                    android:id="@+id/tomorrow_min"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -147,6 +150,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/monday_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/unselectshape"
@@ -222,9 +226,10 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/tuesday_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selectshape"
+                android:background="@drawable/unselectshape"
                 android:layout_margin="15dp"
                 android:orientation="vertical">
                 <LinearLayout
@@ -294,6 +299,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/wednesday_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/unselectshape"
@@ -368,6 +374,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/thursday_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/unselectshape"
@@ -442,6 +449,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/friday_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/unselectshape"
@@ -514,6 +522,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/saturday_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/unselectshape"
@@ -585,6 +594,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/sunday_section"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/unselectshape"

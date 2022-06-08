@@ -5,29 +5,29 @@ import static android.widget.Toast.makeText;
 import static androidx.core.app.NotificationCompat.DEFAULT_SOUND;
 import static androidx.core.app.NotificationCompat.DEFAULT_VIBRATE;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RemoteViews;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Random;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 
 import com.example.hci_project.script.MessageScript;
 import com.shashank.sony.fancytoastlib.FancyToast;
@@ -68,9 +68,17 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
     private NumberPicker[] weekHourNumberPicker;
     private NumberPicker[] weekMinNumberPicker;
 
+    // 다음날 AM/PM, 시간, 분에 대해 저장하는 textview
+    private TextView tomorrowAMPM;
+    private TextView tomorrowHour;
+    private TextView tomorrowMin;
+
+    private LinearLayout[] weekSections;
+
     private static final String CHANNEL_ID = "10000";
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +114,9 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
         weekAMPMNumberPicker = new NumberPicker[WEEK];
         weekHourNumberPicker = new NumberPicker[WEEK];
         weekMinNumberPicker = new NumberPicker[WEEK];
+
+        // 월 - 일 다음날 알람에 대한 뒷배경 변경을 위한 Linearlayout 초기화
+        weekSections = new LinearLayout[WEEK];
 
 
         weekHourNumberPicker[0] = findViewById(R.id.monday_hour);
@@ -152,6 +163,18 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
 
         alarmTestButton.setOnClickListener(this);
 
+        tomorrowAMPM = findViewById(R.id.tomorrow_AMPM);
+        tomorrowHour = findViewById(R.id.tomorrow_hour);
+        tomorrowMin = findViewById(R.id.tomorrow_min);
+
+        weekSections[0] = findViewById(R.id.monday_section);
+        weekSections[1] = findViewById(R.id.tuesday_section);
+        weekSections[2] = findViewById(R.id.wednesday_section);
+        weekSections[3] = findViewById(R.id.thursday_section);
+        weekSections[4] = findViewById(R.id.friday_section);
+        weekSections[5] = findViewById(R.id.saturday_section);
+        weekSections[6] = findViewById(R.id.sunday_section);
+
         // 잠시 없어져라 얍
 //        alarmTestButton.setVisibility(View.GONE);
 
@@ -162,6 +185,8 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
         }
 
         loadTime();
+        displayTomorrowAlarmTime();
+
     }
 
     @Override
@@ -202,6 +227,50 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
     }
 
     /**
+     * 다음날이 무슨 요일인지 반환하는 메소드
+     * @return 1 ~ 7 | 1: 월요일, 7: 일요일
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private int getTomorrowDay(){
+        LocalDate date = LocalDate.now();
+        DayOfWeek dayofWeek = date.getDayOfWeek();
+
+        // 다음날 어떤 요일인지 저장 (2 ~ 8)
+        int tomorrowDayOfWeekNumber = dayofWeek.getValue() + 1;
+
+        return tomorrowDayOfWeekNumber > 7 ? 1 : tomorrowDayOfWeekNumber;
+
+    }
+
+    /**
+     * 다음날 저장된 알람 정보에 대해 상단에 표시
+     * @return true
+     */
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private boolean displayTomorrowAlarmTime(){
+        int tomorrow = getTomorrowDay() - 1;
+
+        changeDaySectionColor(tomorrow);
+
+        tomorrowAMPM.setText(AM_PM[weekAMPM[tomorrow]]);
+        tomorrowHour.setText(weekHours[tomorrow]);
+        tomorrowMin.setText(weekMinutes[tomorrow]);
+
+        return true;
+    }
+
+    private boolean changeDaySectionColor(int day){
+
+        weekSections[day].setBackgroundResource(R.drawable.selectshape);
+
+        for(int i = 0; i < WEEK && i != day; i++ ){
+            weekSections[i].setBackgroundResource(R.drawable.unselectshape);
+        }
+
+        return true;
+    }
+
+    /**
      * 상단바 Notification 및 head-up 알림
      *
      * @param channelId : 알람 체널 id
@@ -225,7 +294,7 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
             RemoteViews notificationLayout = new RemoteViews(getPackageName(), R.layout.custom_notification);
             notificationLayout.setImageViewResource(R.id.img, R.mipmap.ic_launcher);
             notificationLayout.setTextViewText(R.id.title, "수면 배터리");
-            notificationLayout.setTextViewText(R.id.message, "문구를 넣어주세요");
+            notificationLayout.setTextViewText(R.id.message, getMessageScript(new Random().nextInt(10)));
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
@@ -337,6 +406,7 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean saveHourMin(String day, NumberPicker AMPMnp, NumberPicker hnp, NumberPicker mnp) {
         if (AMPMnp == null || hnp == null || mnp == null) {
             return false;
@@ -400,6 +470,9 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
 
         Toast.makeText(getApplicationContext(), String.format("%s %s %s시 %s분 알람 저장 완료!",
                 day, tAMPM, tHour, tMin), Toast.LENGTH_SHORT).show();
+
+        displayTomorrowAlarmTime();
+
         return true;
     }
 

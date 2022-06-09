@@ -1,6 +1,7 @@
 package com.example.hci_project;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -24,7 +25,9 @@ public class LightSensor extends AlramTimer implements SensorEventListener {
     public String light = "";
     public int darknessCount = 0;
     public String TAG = "LightSensor";
+    private boolean isTriggered = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,18 +51,25 @@ public class LightSensor extends AlramTimer implements SensorEventListener {
     public void onSensorChanged(SensorEvent sensorEvent) {
         if( sensorEvent.sensor.getType() == Sensor.TYPE_LIGHT){
             light = String.valueOf(sensorEvent.values[0]);
-            if(Integer.parseInt(light) < 500){
+            if(Float.parseFloat(light) < 100){
                 // FIXME : 어돕고 휴대폰 할때 light의 변수 값에 대해 파악해서 숫자 변경
                 darknessCount += 1;
             }else{
                 darknessCount = 0;
             }
 
-            if(darknessCount > 50 && getCurrentHour() > 22){
-                // TODO : 알람 trigger을 위한 broadcast 진행
-                //      : 특정 시간 이상일때 작동하도록 설정 (현재 오후 10로 설정)
+            if(darknessCount > 50
+                    && getCurrentHour() >= 22  && !isTriggered
+            ){
+                // TODO : 다시 밝아질 때 끈다 ?
+                // FIXME : 밝기 변화가 감지될 때만 작동이 됨. darknessCount 변수의 조정이 필요 해 보임
+                Log.d(TAG, "light broadcast sent");
+                Intent darknessIntent = new Intent("com.example.hci_project.DARKNESS_DETECTED");
+                darknessIntent.setPackage("com.example.hci_project");
+                getApplicationContext().sendBroadcast(darknessIntent);
+                isTriggered = !isTriggered;
             }
-            Log.d(TAG,"ligth : "+ light);
+            Log.d(TAG,"light : " + light + " | Darkness count : " + darknessCount + "| Hour : " + getCurrentHour());
         }
     }
 

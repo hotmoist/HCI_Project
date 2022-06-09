@@ -11,7 +11,10 @@ import androidx.core.app.NotificationCompat;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -77,6 +80,7 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
 
     private static final String CHANNEL_ID = "10000";
 
+    BroadcastReceiver mBroadcastReceiver;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -187,6 +191,23 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
         loadTime();
         displayTomorrowAlarmTime();
 
+
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if(intent.getAction().equals("com.example.hci_project.DARKNESS_DETECTED")){
+                    createNotification(CHANNEL_ID, 1,"수면 배터리", "수면 배터리가 수행됨니다.");
+                }
+            }
+        };
+
+        IntentFilter intentFilter = new IntentFilter("com.example.hci_project.DARKNESS_DETECTED");
+        this.registerReceiver(mBroadcastReceiver, intentFilter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -293,8 +314,8 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
 
             RemoteViews notificationLayout = new RemoteViews(getPackageName(), R.layout.custom_notification);
             notificationLayout.setImageViewResource(R.id.img, R.mipmap.ic_launcher);
-            notificationLayout.setTextViewText(R.id.title, "수면 배터리");
-            notificationLayout.setTextViewText(R.id.message, getMessageScript(new Random().nextInt(10)));
+            notificationLayout.setTextViewText(R.id.title, title);
+            notificationLayout.setTextViewText(R.id.message, text);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
                     .setPriority(NotificationCompat.PRIORITY_MAX)
@@ -302,8 +323,6 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
                     .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                     .setCustomContentView(notificationLayout)
                     .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
-                    .setContentTitle(title)
-                    .setContentText(text)
                     .setOngoing(true);
             notificationManager.notify(id, builder.build());
 
@@ -488,7 +507,7 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
                 int alarmScript = (int) (Math.random() * 10); // 0 ~ 9
 
                 getAlarm(alarmType, alarmScript);
-                createNotification(CHANNEL_ID, 1, "test", "test");
+                createNotification(CHANNEL_ID, 1, "수면 배터리", getMessageScript(new Random().nextInt(10)));
                 count++;
                 break;
             case R.id.monday_save:

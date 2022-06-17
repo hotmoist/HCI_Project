@@ -18,7 +18,7 @@ public class AlramReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 //        Toast.makeText(context.getApplicationContext(),"이거지",Toast.LENGTH_SHORT).show();
         Log.d("이거지","이거지");
-        Log.d("이거지","이거지");
+        Log.d("이거지",MainActivity.interval+"");
         MainActivity.interval+=1;
         if(MainActivity.interval%90==1){
             MainActivity.alram=true;

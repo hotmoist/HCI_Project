@@ -671,7 +671,7 @@ public class MainActivity extends AlramTimer implements View.OnClickListener, Ad
                     count++;
                 }
                 Log.d("test",minutes+"");
-                if(MainActivity.interval==5){
+                if(MainActivity.interval==4200){
                     cancelAlram();
                     timer.cancel();
                     timer.purge();

@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.time.LocalTime;
 
-public class LightSensor extends AlramTimer implements SensorEventListener {
+public class LightSensor extends AppCompatActivity implements SensorEventListener {
 
     public SensorManager sensorManager;
     public Sensor lightSensor;

@@ -16,8 +16,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class AlramTimer extends AppCompatActivity  {
+public class AlramTimer extends LightSensor  {
+    static boolean alram=false;
     AlarmManager alarm_manager;
     Intent alarmIntent;
     PendingIntent pendingIntent;
@@ -32,7 +36,7 @@ public class AlramTimer extends AppCompatActivity  {
         alarmIntent = new Intent(this, AlramReceiver.class);
 //
         pendingIntent = PendingIntent.getBroadcast(this,1111,alarmIntent, PendingIntent.FLAG_MUTABLE);
-        setAlarm(23,5,6000);
+//        setAlarm(23,5,6000);
     }
 
     /**
@@ -66,7 +70,7 @@ public class AlramTimer extends AppCompatActivity  {
 
         // 알람 취소
         sendBroadcast(alarmIntent);
-
+        alram=false;
     }
 }
 

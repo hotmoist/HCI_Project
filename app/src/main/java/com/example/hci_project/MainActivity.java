@@ -19,6 +19,9 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -28,15 +31,20 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.Random;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.locks.Lock;
 
 import com.example.hci_project.script.MessageScript;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-public class MainActivity extends LightSensor implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class MainActivity extends AlramTimer implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
+    static int interval=0;
     /**
      * 컴포넌트 변수
      */
@@ -198,11 +206,17 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
                 if(intent.getAction().equals("com.example.hci_project.DARKNESS_DETECTED")){
                     createNotification(CHANNEL_ID, 1,"수면 배터리", "수면 배터리가 수행됨니다.");
                 }
+
+//                if(intent.getAction().equals("test")){
+                makeText(context, "im test", Toast.LENGTH_SHORT).show();
+//                }
             }
         };
 
         IntentFilter intentFilter = new IntentFilter("com.example.hci_project.DARKNESS_DETECTED");
         this.registerReceiver(mBroadcastReceiver, intentFilter);
+
+        alarmTimer();
     }
 
     @Override
@@ -602,7 +616,8 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
                 FancyToast.makeText(this, message, FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
                 break;
             case 6:
-                FancyToast.makeText(this, message, FancyToast.LENGTH_LONG, FancyToast.CONFUSING, true).show();
+//                FancyToast.makeText(this, message, FancyToast.LENGTH_LONG, FancyToast.CONFUSING, true).show();
+                makeText(this, "test", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
@@ -613,7 +628,53 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
         return MessageScript.getMessage(index);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void alarmTimer() {
         // 알람을 작동하기 위한 타이머 구현
+        int tomorrow = getTomorrowDay() - 1;
+
+        changeDaySectionColor(tomorrow);
+
+        String am_pm = AM_PM[weekAMPM[tomorrow]];
+        int hour = Integer.parseInt(weekHours[tomorrow]);
+        if(am_pm.equals("PM")){
+            hour+= 12;
+        }
+        int minutes = Integer.parseInt(weekMinutes[tomorrow]);
+
+        if(hour<7){
+           hour = 24-(7-hour);
+        }else {
+            hour-=7;
+        }
+        setAlarm(hour,minutes,6000);
+        Log.d("test",hour+" "+minutes+"");
+
+//        if(AlramTimer.alram) {`
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                if(AlramTimer.alram) {
+                    AlramTimer.alram=false;
+                    int alarmType = (int) (Math.random() * 9); // 0 ~ 8
+                    int alarmScript = (int) (Math.random() * 10); // 0 ~ 9
+
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getAlarm(alarmType, alarmScript);
+                            createNotification(CHANNEL_ID, 1, "수면 배터리", getMessageScript(new Random().nextInt(10)));
+                        }
+                    },0);
+                    count++;
+                }
+                Log.d("test",minutes+"");
+                ;
+            }
+        };
+        timer.schedule(task, 0, 1000);
+//        }
     }
 }

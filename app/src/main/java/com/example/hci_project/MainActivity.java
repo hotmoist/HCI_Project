@@ -334,31 +334,28 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
         int notiBackgroundImage = 0;
         switch(noti){
             case 0 :
-                notiBackgroundImage = R.mipmap.ic_launcher_nature0;
+                notiBackgroundImage = R.mipmap.ic_launcher_nature0_foreground;
                 break;
             case 1 :
-                notiBackgroundImage = R.mipmap.ic_launcher_nature1;
+                notiBackgroundImage = R.mipmap.ic_launcher_nature1_foreground;
                 break;
             case 2 :
-                notiBackgroundImage = R.mipmap.ic_launcher_nature2;
+                notiBackgroundImage = R.mipmap.ic_launcher_nature2_foreground;
                 break;
             case 3 :
-                notiBackgroundImage = R.mipmap.ic_launcher_nature3;
+                notiBackgroundImage = R.mipmap.ic_launcher_nature3_foreground;
                 break;
             case 4 :
-                notiBackgroundImage = R.mipmap.ic_launcher_nature4;
+                notiBackgroundImage = R.mipmap.ic_launcher_nature4_foreground;
                 break;
             case 5 :
-                notiBackgroundImage = R.mipmap.ic_launcher_nature5;
+                notiBackgroundImage = R.mipmap.ic_launcher_nature5_foreground;
                 break;
             case 6 :
-                notiBackgroundImage = R.mipmap.ic_launcher_nature6;
-                break;
-            case 7 :
-                notiBackgroundImage = R.mipmap.ic_launcher_nature7;
+                notiBackgroundImage = R.mipmap.ic_launcher_nature6_foreground;
                 break;
             default :
-                notiBackgroundImage = R.drawable.battery7;
+                notiBackgroundImage = R.mipmap.ic_launcher_nature7_foreground;
                 break;
         }
         return notiBackgroundImage;

@@ -313,7 +313,7 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
             notificationManager.createNotificationChannel(channel);
 
             RemoteViews notificationLayout = new RemoteViews(getPackageName(), R.layout.custom_notification);
-            notificationLayout.setImageViewResource(R.id.img, R.mipmap.ic_launcher);
+            notificationLayout.setImageViewResource(R.id.img, getNotiBackground(new Random().nextInt(8)));
             notificationLayout.setTextViewText(R.id.title, title);
             notificationLayout.setTextViewText(R.id.message, text);
 
@@ -329,6 +329,39 @@ public class MainActivity extends LightSensor implements View.OnClickListener, A
             return true;
         }
         return false;
+    }
+    private int getNotiBackground(int noti){
+        int notiBackgroundImage = 0;
+        switch(noti){
+            case 0 :
+                notiBackgroundImage = R.mipmap.ic_launcher_nature0;
+                break;
+            case 1 :
+                notiBackgroundImage = R.mipmap.ic_launcher_nature1;
+                break;
+            case 2 :
+                notiBackgroundImage = R.mipmap.ic_launcher_nature2;
+                break;
+            case 3 :
+                notiBackgroundImage = R.mipmap.ic_launcher_nature3;
+                break;
+            case 4 :
+                notiBackgroundImage = R.mipmap.ic_launcher_nature4;
+                break;
+            case 5 :
+                notiBackgroundImage = R.mipmap.ic_launcher_nature5;
+                break;
+            case 6 :
+                notiBackgroundImage = R.mipmap.ic_launcher_nature6;
+                break;
+            case 7 :
+                notiBackgroundImage = R.mipmap.ic_launcher_nature7;
+                break;
+            default :
+                notiBackgroundImage = R.drawable.battery7;
+                break;
+        }
+        return notiBackgroundImage;
     }
     private int getNotification(int noti){
         int notiImage = 0;

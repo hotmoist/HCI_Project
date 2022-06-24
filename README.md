@@ -6,7 +6,7 @@
 
 수면 배터리의 첫 화면은 다음과 같다.
 
-![image](https://user-images.githubusercontent.com/49151220/175643281-44444191-9ada-4e21-8e01-10d7e8e863d2.png)
+![image](https://user-images.githubusercontent.com/49151220/175644801-40a169dd-6d93-4563-a51e-c041524bb96d.png)
 
 
 다음과 같이 사용자가 직접 시간을 선택해서 알람 시간을 설정한다. 실제 알람시간에 알람은 울리지 않으며, 알람으로 설정한 시간 기준 7시간 이전부터 주기마다 사용자에게 알람이 간다.
@@ -15,18 +15,21 @@
 
 ### 알람 화면
 
-![image](https://user-images.githubusercontent.com/49151220/175644607-c920bc0a-3093-49e5-b934-e9c70b3f453b.png)
+![image](https://user-images.githubusercontent.com/49151220/175644769-3e78b524-e1de-43b7-9501-818962943731.png)
 <br/>
 ![image](https://user-images.githubusercontent.com/49151220/175644640-7eca9b87-0559-40f4-a498-60df87ad2291.png)
 
+( 휴대폰 사용중 배경화면 출처 : 네이버 웹툰 )
+<br/>
 
 다음과 같이 휴대폰을 사용할 때, 푸쉬 알람과 토스트알람으로 사용자에게 시간을 알린다.
 
+<br/>
+<br/>
 
 ### 사용자가 알람에 익숙해 지지않게 여러가지 알람 배경과 문구를 생성한다.
 
 
-                                          ( 휴대폰 사용중 배경화면 출처 : 네이버 웹툰 )
 
 
 ### 사용법

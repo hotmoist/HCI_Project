@@ -19,7 +19,7 @@
 
 각 남은 시간마다 다음과 같이 수면 배터리를 표시해준다.
 
-![image](https://user-images.githubusercontent.com/49151220/175645128-18903efb-6289-4560-bc71-ee336d7660d2.png)
+![image](https://user-images.githubusercontent.com/49151220/175645747-85b84cb9-3a4e-437f-b046-635954700877.png)
 
 실제 사용시 나오는 화면으로 붉은 색 부분이 표시된 부분이다.
 

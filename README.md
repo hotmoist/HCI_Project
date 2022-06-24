@@ -13,6 +13,14 @@
 
 -------
 
+### 수면 배터리 화면
+
+![image](https://user-images.githubusercontent.com/49151220/175645164-0ff51af3-1c41-47d3-8a6f-1c0e7109cbc6.png)
+
+
+![image](https://user-images.githubusercontent.com/49151220/175645128-18903efb-6289-4560-bc71-ee336d7660d2.png)
+
+
 ### 알람 화면
 
 ![image](https://user-images.githubusercontent.com/49151220/175644769-3e78b524-e1de-43b7-9501-818962943731.png)

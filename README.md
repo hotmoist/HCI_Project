@@ -15,9 +15,9 @@
 
 ### 알람 화면
 
-![image](https://user-images.githubusercontent.com/49151220/175644146-514829bd-02eb-40ed-90a0-7c51ed1d298f.png)
-![image](https://user-images.githubusercontent.com/49151220/175644176-bb08b43a-e832-4635-95e1-bb2c25347e9a.png)
-
+![image](https://user-images.githubusercontent.com/49151220/175644607-c920bc0a-3093-49e5-b934-e9c70b3f453b.png)
+<br/>
+![image](https://user-images.githubusercontent.com/49151220/175644640-7eca9b87-0559-40f4-a498-60df87ad2291.png)
 
 
 다음과 같이 휴대폰을 사용할 때, 푸쉬 알람과 토스트알람으로 사용자에게 시간을 알린다.
@@ -25,8 +25,6 @@
 
 ### 사용자가 알람에 익숙해 지지않게 여러가지 알람 배경과 문구를 생성한다.
 
-![image](https://user-images.githubusercontent.com/49151220/175643917-64a898bd-e4f4-43e7-a8b3-d23db9eea378.png)
-![image](https://user-images.githubusercontent.com/49151220/175644216-5cf55499-290b-4657-b774-db94c0217063.png)
 
                                           ( 휴대폰 사용중 배경화면 출처 : 네이버 웹툰 )
 

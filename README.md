@@ -13,14 +13,18 @@
 
 -------
 
-### 수면 배터리 화면
+### 수면 배터리 화면 표시
 
 ![image](https://user-images.githubusercontent.com/49151220/175645164-0ff51af3-1c41-47d3-8a6f-1c0e7109cbc6.png)
 
+각 남은 시간마다 다음과 같이 수면 배터리를 표시해준다.
 
 ![image](https://user-images.githubusercontent.com/49151220/175645128-18903efb-6289-4560-bc71-ee336d7660d2.png)
 
+실제 사용시 나오는 화면으로 붉은 색 부분이 표시된 부분이다.
 
+---
+---
 ### 알람 화면
 
 ![image](https://user-images.githubusercontent.com/49151220/175644769-3e78b524-e1de-43b7-9501-818962943731.png)
@@ -28,6 +32,7 @@
 ![image](https://user-images.githubusercontent.com/49151220/175644640-7eca9b87-0559-40f4-a498-60df87ad2291.png)
 
 ( 휴대폰 사용중 배경화면 출처 : 네이버 웹툰 )
+
 <br/>
 
 다음과 같이 휴대폰을 사용할 때, 푸쉬 알람과 토스트알람으로 사용자에게 시간을 알린다.
@@ -36,6 +41,8 @@
 <br/>
 
 ### 사용자가 알람에 익숙해 지지않게 여러가지 알람 배경과 문구를 생성한다.
+
+<img width="297" alt="image" src="https://user-images.githubusercontent.com/49151220/175645508-0bdc2dd7-cac3-4986-b8f6-a64863c6da4d.png"><img width="300" alt="image" src="https://user-images.githubusercontent.com/49151220/175645551-659fa6e8-9df5-4271-8f88-206763a9bc70.png"><img width="303" alt="image" src="https://user-images.githubusercontent.com/49151220/175645588-dd8e0b80-52a3-4eab-8552-133b6c3f8e17.png">
 
 
 
